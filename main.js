@@ -8,6 +8,34 @@ const Templateprofesor= document.querySelector('#Templateprofesor').content
 const estudiantes = []
 const profesores = []
 
+document.addEventListener('click', e =>{
+// console.log(e.target.dataset.nombre)
+if (e.target.dataset.nombre) {
+        // console.log(e.target.matches(".btn-success"))
+            if (e.target.matches(".btn-success")) {
+                estudiantes.map((item)=> {
+                    if(item.nombre === e.target.dataset.nombre){
+                        item.setEstado= true
+                    }
+                    console.log(item)
+                    return item
+                });
+
+            }
+            if (e.target.matches(".btn-danger")){
+                estudiantes.map((item)=> {
+                    if(item.nombre === e.target.dataset.nombre){
+                        item.setEstado = false
+                    }
+                    console.log(item)
+                    return item
+                });
+
+            }
+            Persona.pintarPersonaUI(estudiantes, "Estudiante")
+    }
+})
+
 
 
 class Persona{
@@ -54,8 +82,27 @@ class Estudiante extends Persona{
         const clone= TemplateEstudiante.cloneNode(true)
         clone.querySelector('h5 .text-primary').textContent =  this.nombre
 
+        clone.querySelector('h6').textContent = this.getEstudiante
+
+        if (this.#estado) {
+            clone.querySelector('.badge').className = "badge bg-success"
+            clone.querySelector('.btn-success').disabled = true
+            clone.querySelector('.btn-danger').disabled = false
+
+        }else{
+            clone.querySelector('.badge').className = "badge bg-danger"
+            clone.querySelector('.btn-danger').disabled = true
+            clone.querySelector('.btn-success').disabled = false
+
+        }
+        clone.querySelector('.badge').textContent = this.#estado
+            ? "aprobado"
+            : "Reprobado"
+        clone.querySelector('.btn-success').dataset.nombre = this.nombre
+        clone.querySelector('.btn-danger').dataset.nombre = this.nombre
         return clone
     }
+
 }
 
 class Profesor extends Persona{
